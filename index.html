@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Box Shadow Generator</title>
+<style>
+body{font-family:Arial;background:#f5f3ff;padding:25px}
+main{max-width:600px;margin:auto;background:white;padding:30px;border-radius:16px}
+label{display:block;margin-top:12px}
+input[type=range]{width:100%}
+#preview{width:150px;height:150px;background:#c4b5fd;margin:50px auto;border-radius:15px}
+#code{background:#ede9fe;padding:15px;border-radius:8px;overflow-wrap:anywhere}
+button{background:#7c3aed;color:white;padding:12px 20px;border:0;border-radius:8px;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<h1>CSS Box Shadow Generator</h1>
+<p>Design custom shadows for your web projects.</p>
+<label>Horizontal Offset</label>
+<input id="x" type="range" min="-30" max="30" value="5" oninput="generate()">
+<label>Vertical Offset</label>
+<input id="y" type="range" min="-30" max="30" value="10" oninput="generate()">
+<label>Blur Radius</label>
+<input id="blur" type="range" min="0" max="50" value="20" oninput="generate()">
+<label>Spread Radius</label>
+<input id="spread" type="range" min="-10" max="20" value="0" oninput="generate()">
+<label>Shadow Color</label>
+<input id="color" type="color" value="#666666" oninput="generate()">
+<div id="preview"></div>
+<p id="code"></p>
+<button onclick="copyCode()">Copy CSS</button>
+<p id="status"></p>
+</main>
+<script>
+function generate(){
+ const ids=["x","y","blur","spread"];
+ const values=ids.map(id=>document.getElementById(id).value+"px");
+ const color=document.getElementById("color").value;
+ const shadow=values.join(" ")+" "+color;
+ document.getElementById("preview").style.boxShadow=shadow;
+ document.getElementById("code").textContent="box-shadow: "+shadow+";";
+ document.getElementById("status").textContent="";
+}
+async function copyCode(){
+ try{
+  await navigator.clipboard.writeText(document.getElementById("code").textContent);
+  document.getElementById("status").textContent="CSS copied!";
+ }catch{
+  document.getElementById("status").textContent="Please copy manually.";
+ }
+}
+generate();
+</script>
+</body>
+</html>
